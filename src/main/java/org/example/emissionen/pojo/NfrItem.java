@@ -1,7 +1,10 @@
 package org.example.emissionen.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -20,7 +23,10 @@ public class NfrItem {
 
     private int nfr_code;
 
-    private String sektor;
+    @ManyToOne
+    @JoinColumn(name = "sektorId")
+    @JsonBackReference
+    private Sektor sektor;
 
     private String quelle;
 
