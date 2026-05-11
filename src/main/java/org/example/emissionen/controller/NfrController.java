@@ -5,5 +5,5 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/nfr")
-public class nfr_controller {
+public class NfrController {
 }
