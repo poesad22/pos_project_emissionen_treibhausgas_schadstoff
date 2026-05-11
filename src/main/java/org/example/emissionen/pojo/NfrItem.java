@@ -18,7 +18,7 @@ public class NfrItem {
 
     private int nfr_code;
 
-    private String nfr_sektor;
+    private String sektor;
 
     private String quelle;
 
