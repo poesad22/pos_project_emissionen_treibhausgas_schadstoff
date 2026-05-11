@@ -1,6 +1,7 @@
 package org.example.emissionen.pojo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -30,6 +31,7 @@ public class NfrItem {
 
     private String quelle;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate datenstand;
 
     private int jahr;
