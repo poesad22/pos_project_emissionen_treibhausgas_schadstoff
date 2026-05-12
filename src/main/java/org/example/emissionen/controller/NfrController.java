@@ -19,6 +19,6 @@ public class NfrController {
 
     @GetMapping("/all")
     public ResponseEntity<List<NfrItem>> getAll(){
-
+        return ResponseEntity.ok(nfrService.getNfrItems());
     }
 }
