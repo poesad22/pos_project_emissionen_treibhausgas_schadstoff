@@ -23,7 +23,7 @@ public class NfrItem {
 
     private int nfr_code;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "sektorId")
     @JsonBackReference
     @JsonProperty("nfr_sektor")
