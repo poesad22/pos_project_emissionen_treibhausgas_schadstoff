@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class NfrService {
-    private NfrItemRepository nfrItemRepository;
+    private final NfrItemRepository nfrItemRepository;
 
     public List<NfrItem> getNfrItems(){
         return nfrItemRepository.findAll();
