@@ -1,10 +1,7 @@
 package org.example.emissionen.pojo;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ public class Sektor {
 
     private String sektorName;
 
+    @Transient
     @OneToMany(
             mappedBy ="sektor",
             cascade = CascadeType.ALL
