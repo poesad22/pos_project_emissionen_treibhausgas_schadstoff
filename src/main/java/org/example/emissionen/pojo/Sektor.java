@@ -15,7 +15,6 @@ public class Sektor {
 
     private String sektorName;
 
-    @Transient
     @OneToMany(
             mappedBy ="sektor",
             cascade = CascadeType.ALL
