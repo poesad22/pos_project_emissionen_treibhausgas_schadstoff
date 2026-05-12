@@ -16,7 +16,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class InitDatabase {
-    private NfrItemRepository nfrItemRepository;
+    private final NfrItemRepository nfrItemRepository;
     @PostConstruct
     public void createData(){
         try {
@@ -27,7 +27,8 @@ public class InitDatabase {
             List<NfrItem> nfrItems = objectMapper.readerForListOf(NfrItem.class).readValue(NfrStream);
             nfrItemRepository.saveAll(nfrItems);
         } catch (IOException e){
-            throw new RuntimeException();
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }
