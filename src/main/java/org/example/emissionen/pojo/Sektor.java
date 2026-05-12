@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 public class Sektor {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long sektorId;
 
     private String sektorName;
