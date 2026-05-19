@@ -12,7 +12,13 @@ import java.util.List;
 public class NfrService {
     private final NfrItemRepository nfrItemRepository;
 
-    public List<NfrItem> getNfrItems(){
+    public List<NfrItem> getNfrItems() {
         return nfrItemRepository.findAll();
     }
+
+    public List<NfrItem> getBySchadstoff(String schadstoff) {
+        return nfrItemRepository.findBySchadstoff(schadstoff);
+    }
+
+
 }
