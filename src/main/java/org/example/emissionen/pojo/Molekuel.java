@@ -17,8 +17,8 @@ public class Molekuel {
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
-            name ="schadstoff_atom",
-            joinColumns = @JoinColumn(name = "schadstoffId"),
+            name ="molekuel_atom",
+            joinColumns = @JoinColumn(name = "molekuelId"),
             inverseJoinColumns = @JoinColumn(name = "atomId")
     )
     @JsonIgnore
