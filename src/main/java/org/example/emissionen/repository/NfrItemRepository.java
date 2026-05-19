@@ -10,6 +10,6 @@ public interface NfrItemRepository extends JpaRepository<NfrItem, Long> {
     List<NfrItem> findByRegion(String region);
     List<NfrItem> findByJahr(int jahr);
     List<NfrItem> findByJahrBetween(int von, int bis);
-
+    List<NfrItem> findBySchadstoffAndJahr(String schadstoff, int jahr);
 
 }

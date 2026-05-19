@@ -28,7 +28,9 @@ public class NfrService {
         return nfrItemRepository.findByJahr(jahr);
     }
 
-
+    public List<NfrItem> getByJahrRange(int von, int bis) {
+        return nfrItemRepository.findByJahrBetween(von, bis);
+    }
 
 
 

@@ -35,7 +35,12 @@ public class NfrController {
         return ResponseEntity.ok(nfrService.getByJahr(jahr));
     }
 
-
+    @GetMapping("/jahr/range")
+    public ResponseEntity<List<NfrItem>> getByJahrRange(
+            @RequestParam int von,
+            @RequestParam int bis) {
+        return ResponseEntity.ok(nfrService.getByJahrRange(von, bis));
+    }
 
 
 
