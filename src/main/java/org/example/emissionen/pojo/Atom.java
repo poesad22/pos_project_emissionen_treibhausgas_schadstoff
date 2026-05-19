@@ -17,5 +17,5 @@ public class Atom {
     private String name;
 
     @ManyToMany(mappedBy = "atome")
-    private List<Schadstoff> schadstoffe;
+    private List<Molekuel> molekuele;
 }

@@ -8,10 +8,10 @@ import java.util.List;
 
 @Entity
 @Data
-public class Schadstoff {
+public class Molekuel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long schadstoffId;
+    private Long molekuelId;
 
     private String name;
 
