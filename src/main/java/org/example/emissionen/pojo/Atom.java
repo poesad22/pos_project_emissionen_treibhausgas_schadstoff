@@ -9,13 +9,13 @@ import java.util.List;
 @Data
 public class Atom {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long atomId;
-
     private String symbol;
-
     private String name;
-
+    private Double atomicMass;
+    private Double boil;
+    private Double melt;
+    private Double density;
+    private Double electronegativityPauling;
     @ManyToMany(mappedBy = "atome")
     private List<Molekuel> molekuele;
 }
