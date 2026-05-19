@@ -12,6 +12,10 @@ public class Atom {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long atomId;
 
+    private String symbol;
+
+    private String name;
+
     @ManyToMany(mappedBy = "atome")
     private List<Schadstoff> schadstoffe;
 }
