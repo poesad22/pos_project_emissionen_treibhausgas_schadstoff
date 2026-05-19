@@ -30,7 +30,10 @@ public class NfrController {
         return ResponseEntity.ok(nfrService.getByRegion(region));
     }
 
-
+    @GetMapping("/jahr/{jahr}")
+    public ResponseEntity<List<NfrItem>> getByJahr(@PathVariable int jahr) {
+        return ResponseEntity.ok(nfrService.getByJahr(jahr));
+    }
 
 
 

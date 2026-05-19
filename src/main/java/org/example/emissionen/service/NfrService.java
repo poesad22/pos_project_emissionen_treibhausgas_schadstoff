@@ -24,7 +24,9 @@ public class NfrService {
         return nfrItemRepository.findByRegion(region);
     }
 
-
+    public List<NfrItem> getByJahr(int jahr) {
+        return nfrItemRepository.findByJahr(jahr);
+    }
 
 
 
