@@ -3,12 +3,15 @@ package org.example.emissionen.pojo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 @Data
 @Entity
+@NoArgsConstructor
 public class Sektor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,16 +19,11 @@ public class Sektor {
 
     private String sektorName;
 
-    // ↓ Add this constructor for Jackson
     @JsonCreator
     public Sektor(String sektorName) {
         this.sektorName = sektorName;
     }
-
-    // ↓ Keep this for JPA
-    public Sektor() {}
-
-    @OneToMany(mappedBy = "sektor", cascade = CascadeType.ALL)  // ← removed @Transient
+    @OneToMany(mappedBy = "sektor", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<NfrItem> nfrItems = new ArrayList<>();
 }
