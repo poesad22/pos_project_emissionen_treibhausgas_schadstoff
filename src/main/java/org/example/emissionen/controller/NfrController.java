@@ -49,5 +49,10 @@ public class NfrController {
         return ResponseEntity.ok(nfrService.getBySchadstoffAndJahr(schadstoff, jahr));
     }
 
+    @GetMapping("/sektor/{sektorName}")
+    public ResponseEntity<List<NfrItem>> getBySektor(@PathVariable String sektorName) {
+        return ResponseEntity.ok(nfrService.getBySektor(sektorName));
+    }
+
 
 }

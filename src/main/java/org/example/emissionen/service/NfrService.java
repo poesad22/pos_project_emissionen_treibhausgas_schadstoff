@@ -35,6 +35,8 @@ public class NfrService {
     public List<NfrItem> getBySchadstoffAndJahr(String schadstoff, int jahr) {
         return nfrItemRepository.findBySchadstoffAndJahr(schadstoff, jahr);
     }
-
+    public List<NfrItem> getBySektor(String sektorName) {
+        return nfrItemRepository.findBySektor_SektorName(sektorName);
+    }
 
 }
