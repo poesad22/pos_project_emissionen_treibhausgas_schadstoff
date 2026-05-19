@@ -22,5 +22,5 @@ public class Schadstoff {
             inverseJoinColumns = @JoinColumn(name = "atomId")
     )
     @JsonIgnore
-    private List<Atom> atoms;
+    private List<Atom> atome;
 }
