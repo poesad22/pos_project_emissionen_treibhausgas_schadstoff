@@ -23,7 +23,7 @@ public class Sektor {
     public Sektor(String sektorName) {
         this.sektorName = sektorName;
     }
-    @OneToMany(mappedBy = "sektor", cascade = CascadeType.ALL)  // ← removed @Transient
+    @OneToMany(mappedBy = "sektor", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<NfrItem> nfrItems = new ArrayList<>();
 }
