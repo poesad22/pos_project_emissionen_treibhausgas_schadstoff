@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class NfrItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long NfrId;
+    private Long nfrId;
 
     private String region;
 

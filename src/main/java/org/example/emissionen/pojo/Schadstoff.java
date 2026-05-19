@@ -11,7 +11,7 @@ import java.util.List;
 public class Schadstoff {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long schadstoffId;
 
     private String name;
 

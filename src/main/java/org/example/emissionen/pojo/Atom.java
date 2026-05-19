@@ -10,7 +10,7 @@ import java.util.List;
 public class Atom {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long atomId;
 
     @ManyToMany(mappedBy = "atome")
     private List<Schadstoff> schadstoffe;
