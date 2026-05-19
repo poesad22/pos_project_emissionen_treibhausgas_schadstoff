@@ -25,5 +25,16 @@ public class NfrController {
         return ResponseEntity.ok(nfrService.getBySchadstoff(schadstoff));
     }
 
+    @GetMapping("/region/{region}")
+    public ResponseEntity<List<NfrItem>> getByRegion(@PathVariable String region) {
+        return ResponseEntity.ok(nfrService.getByRegion(region));
+    }
+
+
+
+
+
+
+
 
 }

@@ -20,5 +20,15 @@ public class NfrService {
         return nfrItemRepository.findBySchadstoff(schadstoff);
     }
 
+    public List<NfrItem> getByRegion(String region) {
+        return nfrItemRepository.findByRegion(region);
+    }
+
+
+
+
+
+
+
 
 }
