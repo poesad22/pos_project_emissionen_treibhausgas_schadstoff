@@ -12,7 +12,31 @@ import java.util.List;
 public class NfrService {
     private final NfrItemRepository nfrItemRepository;
 
-    public List<NfrItem> getNfrItems(){
+    public List<NfrItem> getNfrItems() {
         return nfrItemRepository.findAll();
     }
+
+    public List<NfrItem> getBySchadstoff(String schadstoff) {
+        return nfrItemRepository.findBySchadstoff(schadstoff);
+    }
+
+    public List<NfrItem> getByRegion(String region) {
+        return nfrItemRepository.findByRegion(region);
+    }
+
+    public List<NfrItem> getByJahr(int jahr) {
+        return nfrItemRepository.findByJahr(jahr);
+    }
+
+    public List<NfrItem> getByJahrRange(int von, int bis) {
+        return nfrItemRepository.findByJahrBetween(von, bis);
+    }
+
+    public List<NfrItem> getBySchadstoffAndJahr(String schadstoff, int jahr) {
+        return nfrItemRepository.findBySchadstoffAndJahr(schadstoff, jahr);
+    }
+    public List<NfrItem> getBySektor(String sektorName) {
+        return nfrItemRepository.findBySektor_SektorName(sektorName);
+    }
+
 }
