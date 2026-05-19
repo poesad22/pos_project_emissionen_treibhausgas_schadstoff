@@ -11,5 +11,5 @@ public interface NfrItemRepository extends JpaRepository<NfrItem, Long> {
     List<NfrItem> findByJahr(int jahr);
     List<NfrItem> findByJahrBetween(int von, int bis);
     List<NfrItem> findBySchadstoffAndJahr(String schadstoff, int jahr);
-
+    List<NfrItem> findBySektor_SektorName(String sektorName);
 }

@@ -42,7 +42,12 @@ public class NfrController {
         return ResponseEntity.ok(nfrService.getByJahrRange(von, bis));
     }
 
-
+    @GetMapping("/filter")
+    public ResponseEntity<List<NfrItem>> getBySchadstoffAndJahr(
+            @RequestParam String schadstoff,
+            @RequestParam int jahr) {
+        return ResponseEntity.ok(nfrService.getBySchadstoffAndJahr(schadstoff, jahr));
+    }
 
 
 }

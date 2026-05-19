@@ -32,7 +32,9 @@ public class NfrService {
         return nfrItemRepository.findByJahrBetween(von, bis);
     }
 
-
+    public List<NfrItem> getBySchadstoffAndJahr(String schadstoff, int jahr) {
+        return nfrItemRepository.findBySchadstoffAndJahr(schadstoff, jahr);
+    }
 
 
 }
