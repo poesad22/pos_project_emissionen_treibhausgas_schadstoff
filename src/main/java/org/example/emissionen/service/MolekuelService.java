@@ -21,4 +21,11 @@ public class MolekuelService {
                 .orElse(0.0);
     }
 
+    public double getSchmelzpunkt(Molekuel molekuel) {
+        return molekuel.getAtome().stream()
+                .map(Atom::getMelt)
+                .filter(b -> b != null)
+                .min(Double::compareTo)
+                .orElse(0.0);
+    }
 }
