@@ -7,6 +7,8 @@ import org.example.emissionen.repository.AtomRepo;
 import org.example.emissionen.repository.MolekuelRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class MolekuelService {
@@ -28,4 +30,18 @@ public class MolekuelService {
                 .min(Double::compareTo)
                 .orElse(0.0);
     }
+
+    public double berechneMolareMasse(Molekuel molekuel) {
+        double masse = 0.0;
+        for (Map.Entry<String, Integer> entry : molekuel.getAnzahlDerAtome().entrySet()) {
+            String symbol = entry.getKey();
+            int anzahl = entry.getValue();
+            Atom atom = atomRepo.findById(symbol).orElse(null);
+            if (atom != null && atom.getAtomicMass() != null) {
+                masse += atom.getAtomicMass() * anzahl;
+            }
+        }
+        return Math.round(masse * 100.0) / 100.0;
+    }
+
 }
