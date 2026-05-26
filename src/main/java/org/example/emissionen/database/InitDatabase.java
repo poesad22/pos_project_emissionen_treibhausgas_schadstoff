@@ -1,6 +1,8 @@
 package org.example.emissionen.database;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,10 @@ public class InitDatabase {
         try {
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
+            ObjectMapper snakeMapper = new ObjectMapper()
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                    .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+
             // --- 1. NFR Daten ---
             InputStream nfrStream = getClass().getResourceAsStream("/luftschadstoff_emissionen_nach_nfr.json");
             if (nfrStream == null) throw new IllegalStateException("Resource not found: /luftschadstoff_emissionen_nach_nfr.json");
@@ -47,34 +53,19 @@ public class InitDatabase {
             // --- 2. Atom Daten aus Periodentabelle ---
             InputStream atomStream = getClass().getResourceAsStream("/periodic-table-lookup.json");
             if (atomStream == null) throw new IllegalStateException("Resource not found: /periodic-table-lookup.json");
-            JsonNode root = objectMapper.readTree(atomStream);
+            JsonNode root = snakeMapper.readTree(atomStream);
 
-            List<String> order = objectMapper.convertValue(
+            List<String> order = snakeMapper.convertValue(
                     root.get("order"),
-                    objectMapper.getTypeFactory().constructCollectionType(List.class, String.class)
+                    snakeMapper.getTypeFactory().constructCollectionType(List.class, String.class)
             );
 
-            List<Atom> atome = new ArrayList<>();
-            for (String elementName : order) {
-                JsonNode elementNode = root.get(elementName);
-                if (elementNode == null) continue;
+            List<Atom> atome = order.stream()
+                    .map(root::get)
+                    .filter(Objects::nonNull)
+                    .map(el -> snakeMapper.convertValue(el, Atom.class))
+                    .toList();
 
-                Atom atom = new Atom();
-                atom.setSymbol(elementNode.path("symbol").asText());
-                atom.setName(elementNode.path("name").asText());
-                atom.setAtomicMass(!elementNode.path("atomic_mass").isNull()
-                        ? elementNode.path("atomic_mass").asDouble() : null);
-                atom.setBoil(!elementNode.path("boil").isNull()
-                        ? elementNode.path("boil").asDouble() : null);
-                atom.setMelt(!elementNode.path("melt").isNull()
-                        ? elementNode.path("melt").asDouble() : null);
-                atom.setDensity(!elementNode.path("density").isNull()
-                        ? elementNode.path("density").asDouble() : null);
-                atom.setElectronegativityPauling(!elementNode.path("electronegativity_pauling").isNull()
-                        ? elementNode.path("electronegativity_pauling").asDouble() : null);
-
-                atome.add(atom);
-            }
             atomRepository.saveAll(atome);
 
             // --- 3. Molekuel Daten aus NFR JSON ---
@@ -93,18 +84,15 @@ public class InitDatabase {
                 m.setFormel(kuerzel);
 
                 Set<Atom> molekuelAtome = new HashSet<>();
-                Map<String, Integer> anzahl = new HashMap<>();
 
                 if (kuerzel.equals("NOX")) {
-                    // NOX = Gruppe von Stickoxiden, als NO2 approximiert
-                    addAtom(molekuelAtome, anzahl, "N", 1);
-                    addAtom(molekuelAtome, anzahl, "O", 2);
+                    addAtom(molekuelAtome, "N");
+                    addAtom(molekuelAtome, "O");
                 } else if (!SKIP_KUERZEL.contains(kuerzel)) {
-                    parseMolekuelFormel(kuerzel, molekuelAtome, anzahl);
+                    parseMolekuelFormel(kuerzel, molekuelAtome);
                 }
 
                 m.setAtome(molekuelAtome);
-                m.setAnzahlDerAtome(anzahl);
                 molekuele.add(m);
             }
             molekuelRepository.saveAll(molekuele);
@@ -115,19 +103,14 @@ public class InitDatabase {
         }
     }
 
-    private void parseMolekuelFormel(String formel, Set<Atom> atome, Map<String, Integer> anzahl) {
+    private void parseMolekuelFormel(String formel, Set<Atom> atome) {
         Matcher matcher = ELEMENT_PATTERN.matcher(formel);
         while (matcher.find()) {
-            String symbol = matcher.group(1);
-            int count = matcher.group(2).isEmpty() ? 1 : Integer.parseInt(matcher.group(2));
-            addAtom(atome, anzahl, symbol, count);
+            addAtom(atome, matcher.group(1));
         }
     }
 
-    private void addAtom(Set<Atom> atome, Map<String, Integer> anzahl, String symbol, int count) {
-        atomRepository.findById(symbol).ifPresent(atom -> {
-            atome.add(atom);
-            anzahl.put(symbol, count);
-        });
+    private void addAtom(Set<Atom> atome, String symbol) {
+        atomRepository.findById(symbol).ifPresent(atome::add);
     }
 }
