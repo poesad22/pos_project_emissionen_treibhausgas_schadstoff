@@ -83,4 +83,12 @@ public class MolekuelService {
         }
         return 0.0; // Reine Elemente wie Pb, Cd
     }
+
+    public String getBindungstyp(Molekuel molekuel) {
+        double diff = getENDifferenz(molekuel);
+        if (diff >= 1.7) return "IONISCH";
+        if (diff >= 0.4) return "POLAR KOVALENT";
+        if (diff > 0) return "UNPOLAR KOVALENT";
+        return "METALLISCH (Reinelement)";
+    }
 }
