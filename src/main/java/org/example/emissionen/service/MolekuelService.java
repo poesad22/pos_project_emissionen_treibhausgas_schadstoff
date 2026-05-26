@@ -7,7 +7,9 @@ import org.example.emissionen.repository.AtomRepo;
 import org.example.emissionen.repository.MolekuelRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,19 +18,43 @@ public class MolekuelService {
     private final AtomRepo atomRepo;
 
     public double getSiedepunkt(Molekuel molekuel) {
-        return molekuel.getAtome().stream()
-                .map(Atom::getBoil)
-                .filter(b -> b != null)
-                .max(Double::compareTo)
-                .orElse(0.0);
+        List<Atom> atome = molekuel.getAtome().stream()
+                .filter(a -> a.getBoil() != null)
+                .toList();
+
+        if (atome.isEmpty()) return 0.0;
+
+        Map<String, Long> haeufigkeit = atome.stream()
+                .collect(Collectors.groupingBy(Atom::getSymbol, Collectors.counting()));
+
+        double summe = 0.0;
+        long gesamt = 0;
+        for (Atom atom : atome) {
+            long count = haeufigkeit.get(atom.getSymbol());
+            summe += atom.getBoil() * count;
+            gesamt += count;
+        }
+        return summe / gesamt;
     }
 
     public double getSchmelzpunkt(Molekuel molekuel) {
-        return molekuel.getAtome().stream()
-                .map(Atom::getMelt)
-                .filter(b -> b != null)
-                .min(Double::compareTo)
-                .orElse(0.0);
+        List<Atom> atome = molekuel.getAtome().stream()
+                .filter(a -> a.getMelt() != null)
+                .toList();
+
+        if (atome.isEmpty()) return 0.0;
+
+        Map<String, Long> haeufigkeit = atome.stream()
+                .collect(Collectors.groupingBy(Atom::getSymbol, Collectors.counting()));
+
+        double summe = 0.0;
+        long gesamt = 0;
+        for (Atom atom : atome) {
+            long count = haeufigkeit.get(atom.getSymbol());
+            summe += atom.getMelt() * count;
+            gesamt += count;
+        }
+        return summe / gesamt;
     }
 
     public double berechneMolareMasse(Molekuel molekuel) {
