@@ -7,6 +7,7 @@ import org.example.emissionen.repository.AtomRepo;
 import org.example.emissionen.repository.MolekuelRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -69,5 +70,17 @@ public class MolekuelService {
         }
         return Math.round(masse * 100.0) / 100.0;
     }
+    public double getENDifferenz(Molekuel molekuel) {
+        List<Double> enWerte = molekuel.getAtome().stream()
+                .map(Atom::getElectronegativityPauling)
+                .filter(b -> b != null)
+                .collect(Collectors.toList());
 
+        if (enWerte.size() >= 2) {
+            double max = Collections.max(enWerte);
+            double min = Collections.min(enWerte);
+            return Math.round((max - min) * 100.0) / 100.0;
+        }
+        return 0.0; // Reine Elemente wie Pb, Cd
+    }
 }
